@@ -41,18 +41,6 @@ O modelo final apresentou os seguintes resultados:
 
 Uma versão web simples foi criada usando o framework Flask. Com isso, é possível simular o preço de um imóvel diretamente no navegador.
 
-### Como rodar a aplicação:
-
-```bash
-# Instale as dependências
-pip install -r requirements.txt
-
-# Rode o servidor local
-python app.py
-
-# Acesse em:
-http://127.0.0.1:5000
-```
 
 ## 🎓 Tecnologias
 
@@ -71,16 +59,9 @@ preco_log = modelo.predict(novo_dado)
 preco = np.expm1(preco_log)
 ```
 
-## 🔗 Links
-
-- Notebook no Google Colab
-- [Código completo no GitHub](https://github.com/seuusuario/previsao-preco-imoveis-goiania)
-
----
-
 Este projeto foi desenvolvido com fins educacionais, analíticos e práticos, podendo ser expandido para outros contextos e cidades.
 
 Contribuições e melhorias são bem-vindas!
 
-📑 Autor: Lucas Gabriel
+📑 Autor: WILLIAM IRINEU
 
