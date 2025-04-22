@@ -30,12 +30,13 @@ Os dados foram extraídos do portal ZAP Imóveis em agosto de 2021. O conjunto d
 
 O modelo final apresentou os seguintes resultados:
 
-| Métrica | Teste Hold-Out | Validação Cruzada |
-| ------- | -------------- | ----------------- |
-| RMSE    | R\$ 90.613,03  | R\$ 94.458,08     |
-| MAE     | R\$ 46.967,16  | R\$ 49.433,57     |
-| MAPE    | 17,60%         | 14,33%            |
-| R²      | 0.8641         | 0.8562            |
+| Métrica                          | Teste Final (Hold-Out) | Validação Cruzada (10-Fold) |
+|----------------------------------|-------------------------|------------------------------|
+| **RMSE (Erro Quadrático Médio)** | R$ 75.752,20            | R$ 84.784,67                 |
+| **MAE (Erro Absoluto Médio)**    | R$ 40.832,06            | R$ 44.961,02                 |
+| **MAPE (Erro Percentual Médio)** | 8,91%                   | 9,81%                        |
+| **R² (Coeficiente de Determinação)** | 0,8975              | 0,8825                       |
+
 
 ## 🌐 Aplicativo Web com Flask
 
