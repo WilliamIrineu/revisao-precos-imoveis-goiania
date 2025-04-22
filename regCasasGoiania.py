@@ -287,10 +287,16 @@ plt.show()
 
 # Pre processamento
 
+
+print(df['TIPO'].unique())
+
 df.columns
 df.head()
 
 df.shape
+
+
+df=df[df['TIPO'].isin(['apartamentos', 'casas', 'cobertura', 'casas-de-condominio'])]
 
 df.isna().sum()
 df.dropna(inplace=True)
@@ -326,21 +332,6 @@ X=X_all
 X
 y = np.log1p(df.PRICE)
 y
-
-#variaveis_significantes = ['TIPO_apartamentos', 'TIPO_casas', 'TIPO_casas-de-condominio',
-#       'TIPO_cobertura', 'TIPO_flat', 'TIPO_terrenos-lotes-condominios',
-#       'SECTOR_Jardim América', 'SECTOR_Jardim Atlântico',
-#       'SECTOR_Jardim Europa', 'SECTOR_Jardim Goiás', 'SECTOR_Jardim Novo',
-#       'SECTOR_Parque Amazônia', 'SECTOR_Parque Oeste',
-#       'SECTOR_Setor Aeroporto', 'SECTOR_Setor Bela', 'SECTOR_Setor Bueno',
-#       'SECTOR_Setor Central', 'SECTOR_Setor Faiçalville',
-#       'SECTOR_Setor Leste', 'SECTOR_Setor Marista', 'SECTOR_Setor Negrão',
-#       'SECTOR_Setor Oeste', 'SECTOR_Setor Pedro', 'SECTOR_Setor Sudoeste',
-#       'SECTOR_Setor Sul', 'BEDROOMS', 'PARKING-SPACES', 'BATHROOMS', 'AREAS',
-#       'CONDOMÍNIO', 'IPTU']
-
-# Remove essas colunas de X
-#X= X[variaveis_significantes]
 
 
 from sklearn.model_selection import train_test_split
@@ -382,10 +373,10 @@ print(f"MAPE: {mape:.2f}%")
 print(f"R²: {r2:.4f}")
 
 
-#RMSE: R$ 90613.03
-#MAE: R$ 46967.16
-#MAPE: 17.60%
-#R²: 0.8641
+#RMSE: R$ 75752.20
+#MAE: R$ 40832.06
+#MAPE: 8.91%
+#R²: 0.8975
 
 
 import pandas as pd
@@ -448,6 +439,7 @@ df_ic['inclui_zero'] = (df_ic['ic_inf'] <= 0) & (df_ic['ic_sup'] >= 0)
 # Filtrar as 40 mais importantes
 df_top = df_ic.sort_values('importancia_media', ascending=False).head(32)
 
+df_top
 # Plot
 plt.figure(figsize=(10, 8))
 plt.errorbar(df_top['importancia_media'], df_top['variavel'], 
@@ -509,7 +501,6 @@ print(f"MAPE: {mape:.2f}%")
 print(f"R²  : {r2:.4f}")
 
 
-
 model = RandomForestRegressor(
     n_estimators=500,
     min_samples_split=2,
@@ -553,8 +544,6 @@ plt.tight_layout()
 plt.show()
 
 
-
-
 import joblib
 
 # Salvar o modelo
@@ -566,8 +555,12 @@ modelo_carregado = joblib.load('modelo_random_forest.pkl')
 
 # novo imóvel com os dados:
 
-novo_imovel = X.iloc[0]
-novo_imovel
+novo_imovel = X.iloc[1]
+
+print(X.iloc[1])
+
+print(novo_imovel[novo_imovel != 0])
+
 
 pd.DataFrame([novo_imovel], columns=X.columns)
 
@@ -579,8 +572,24 @@ preco_estimado = np.expm1(preco_log)
 
 # Mostra o resultado
 print(f"Preço estimado: R$ {preco_estimado[0]:,.2f}")
-print(f"Resultado real: R$ {np.expm1(y.iloc[0]):,.2f}")
+print(f"Resultado real: R$ {np.expm1(y.iloc[1]):,.2f}")
 
+import shap
+
+# Inicializa o explicador com o modelo treinado
+explainer = shap.TreeExplainer(model)
+# X deve ser o mesmo dataset usado no modelo (com encoding e sem y)
+novo_imovel = X.iloc[1]  # Dica: use [[1]] para manter como DataFrame
+shap_values = explainer.shap_values(novo_imovel)
+
+shap.plots.waterfall(shap.Explanation(
+    values=shap_values, 
+    base_values=explainer.expected_value, 
+    data=novo_imovel
+))
+
+
+np.expm1(12.656)
 
 
 from sklearn.ensemble import RandomForestRegressor
